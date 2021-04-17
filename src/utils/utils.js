@@ -13,12 +13,14 @@ export function generateArray() {
   return array;
 }
 
+/**
+ * Fisher-Yates suffle algorithm
+ */
 export function shuffleArray(array) {
-  for (
-    let j, x, i = array.length;
-    i;
-    j = Math.floor(Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x
-  );
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
   return array;
 }
 
