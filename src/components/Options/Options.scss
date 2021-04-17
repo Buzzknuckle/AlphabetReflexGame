@@ -1,0 +1,25 @@
+.OptionsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__radio {
+    margin-bottom: 1rem;
+  }
+
+  &__start {
+    margin-bottom: 1rem;
+  }
+
+  &__letter {
+    margin-bottom: 1rem;
+    &-number {
+      font-weight: 400;
+      font-size: 2.5rem;
+      min-height: 48px;
+    }
+    &-input {
+    }
+  }
+}
