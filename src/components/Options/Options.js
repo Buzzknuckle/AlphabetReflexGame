@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import './Options.scss';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from '@material-ui/core';
+import './Options.scss';
+import { difficultyChange } from '../../store/actions/difficultyActions';
 
 function Options(props) {
+  const { buttonLabel, inputDisabled } = useSelector((state) => state.root);
+  const { difficulty, difficultyDisabled } = useSelector((state) => state.difficulty);
+  const { currentNumber } = useSelector((state) => state.gameNumbers);
+
+  const dispatch = useDispatch();
+
   const [inputValue, setInputValue] = useState('');
 
   const handleDifficultyChange = (event) => {
-    props.setDifficulty(event.target.value);
+    dispatch(difficultyChange(event.target.value));
   };
 
   const handleInputChange = (event) => {
@@ -22,28 +29,22 @@ function Options(props) {
       <div className="OptionsContainer__radio">
         <FormControl component="fieldset">
           <FormLabel component="legend">Select difficulty:</FormLabel>
-          <RadioGroup
-            aria-label="options"
-            name="options"
-            value={props.difficulty}
-            onChange={handleDifficultyChange}
-            row
-          >
+          <RadioGroup aria-label="options" name="options" value={difficulty} onChange={handleDifficultyChange} row>
             <FormControlLabel
               value="easy"
-              disabled={props.difficultyDisabled}
+              disabled={difficultyDisabled}
               control={<Radio color="primary" />}
               label="Easy"
             />
             <FormControlLabel
               value="medium"
-              disabled={props.difficultyDisabled}
+              disabled={difficultyDisabled}
               control={<Radio color="primary" />}
               label="Medium"
             />
             <FormControlLabel
               value="hard"
-              disabled={props.difficultyDisabled}
+              disabled={difficultyDisabled}
               control={<Radio color="primary" />}
               label="Hard"
             />
@@ -53,14 +54,14 @@ function Options(props) {
       <div className="OptionsContainer__start">
         <Button
           variant="outlined"
-          color={props.buttonLabel === 'Stop' ? 'secondary' : 'primary'}
-          onClick={() => props.startGame(props.buttonLabel)}
+          color={buttonLabel === 'Stop' ? 'secondary' : 'primary'}
+          onClick={() => props.startGame(buttonLabel)}
         >
-          {props.buttonLabel}
+          {buttonLabel}
         </Button>
       </div>
       <div className="OptionsContainer__letter">
-        <div className="OptionsContainer__letter-number">{props.currentNumber}</div>
+        <div className="OptionsContainer__letter-number">{currentNumber}</div>
       </div>
       <div className="OptionsContainer__letter-input">
         <TextField
@@ -75,22 +76,11 @@ function Options(props) {
           inputProps={{
             maxLength: 1,
           }}
-          disabled={props.inputDisabled}
+          disabled={inputDisabled}
         />
       </div>
     </div>
   );
 }
-
-Options.propTypes = {
-  difficulty: PropTypes.string,
-  currentNumber: PropTypes.number,
-  buttonLabel: PropTypes.string,
-  inputDisabled: PropTypes.bool,
-  difficultyDisabled: PropTypes.bool,
-  handleInputChange: PropTypes.func,
-  setDifficulty: PropTypes.func,
-  startGame: PropTypes.func,
-};
 
 export default Options;
